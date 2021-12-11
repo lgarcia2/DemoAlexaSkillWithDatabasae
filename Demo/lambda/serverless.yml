@@ -31,8 +31,7 @@ resources:
     helloLambdaIamRole:
       Type: AWS::IAM::Role
       Properties:
-        #Path: /my/cust/path/
-        RoleName: helloLambdaRole
+        RoleName: ${opt:stage, self:provider.stage}-helloLambdaRole
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:

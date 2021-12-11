@@ -71,21 +71,17 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
 
     def get_number_of_hellos(self, userId: str) -> int:
         user_value = f'user#{userId}'
-        logging.info(f"Getting number of hellos from table {TABLE_NAME} with pk {user_value}")
         query_response = DYNAMODB_TABLE.query(
             KeyConditionExpression=Key('pk').eq(user_value)
         )
 
         query_response_items = query_response['Items']
-        logging.info(f"got {len(query_response_items)} items from db")
         if len(query_response_items) < 1:
             return 0
         else:
-            # there 'should' only be one item returned, if there is > 1 then I dont think it matters. We'll just pick the first one
-            logging.info(f"returned obj = {query_response_items[0]}")
+            # there 'should' only be one item returned, if there is > 1 then we'll just pick the first one
             data_str = query_response_items[0]['data']
             data_obj = json.loads(data_str)
-            logging.info(f"number of hellos = {data_obj['numberOfHellos']}")
             return data_obj['numberOfHellos']
 
 
