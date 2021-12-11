@@ -1,0 +1,72 @@
+
+service: DemoAlexaSkill
+frameworkVersion: '2'
+
+plugins:
+  - serverless-python-requirements
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+  tableName: ${opt:stage, self:provider.stage}-helloWorldDataTable
+
+functions:
+  hello:
+    name: ${opt:stage, self:provider.stage}-helloWorldAlexaFunction
+    handler: hello_world.handler
+    role: helloLambdaIamRole
+    events: 
+      - alexaSkill: amzn1.ask.skill.xx-xx-xx
+    environment:
+      HELLO_WORLD_DATA_TABLE: ${self:custom.tableName}
+      REGION: ${self:provider.region}
+
+resources:
+  Resources:
+    helloLambdaIamRole:
+      Type: AWS::IAM::Role
+      Properties:
+        #Path: /my/cust/path/
+        RoleName: helloLambdaRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: dynamoReadWritePolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:*
+                  Resource: "*"
+                - Effect: Allow
+                  Action:
+                    - dynamodb:PutItem
+                    - dynamodb:Query
+                  Resource: 
+                    Fn::GetAtt: [helloWorldDataTable, Arn]
+    helloWorldDataTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          -
+            AttributeName: "pk"
+            AttributeType: "S"
+        KeySchema:
+          - 
+            AttributeName: "pk"
+            KeyType: "HASH"
+

@@ -1,0 +1,22 @@
+{
+  "askcliResourcesVersion": "2020-03-31",
+  "profiles": {
+    "default": {
+      "skillId": "amzn1.ask.skill.9dbdf995-ef01-4ae9-8aa2-48b30d47e3e9",
+      "skillMetadata": {
+        "src": "./skill-package"
+      },
+      "code": {
+        "default": {
+          "src": "./lambda"
+        }
+      },
+      "skillInfrastructure": {
+        "userConfig": {
+          "runtime": "python3.6",
+          "handler": "hello_world.handler"
+        }
+      }
+    }
+  }
+}

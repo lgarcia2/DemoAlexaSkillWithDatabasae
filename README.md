@@ -1,2 +1,2 @@
 # DemoAlexaSkillWithDatabasae
-A Demo of an Alexa Skill utilizing a DynamoDB
+This the next part of a demo of the 'hello world' Alexa Skill being deployed with Serverless. For more information, checkout my blog post here: https://luisgarcia.me/
