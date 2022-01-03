@@ -86,7 +86,6 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
 
 
     def set_number_of_hellos(self, userId: str, number_of_hellos: int) -> None:
-        logging.info("Setting number of hellos")
         user_value = f'user#{userId}'
         data_obj = {}
         data_obj['numberOfHellos'] = number_of_hellos
@@ -98,7 +97,6 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
         DYNAMODB_TABLE.put_item(
             Item = db_item
         )
-        logging.info(f"Put item {json.dumps(db_item)}")
 
 
     def create_hellos_message(self, number_of_hellos: int) -> str:

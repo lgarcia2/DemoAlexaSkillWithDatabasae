@@ -41,7 +41,7 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: dynamoReadWritePolicy
+          - PolicyName: ${opt:stage, self:provider.stage}-LambdaDynamoAndLogPolicy
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
