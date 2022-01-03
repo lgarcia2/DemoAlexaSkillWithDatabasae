@@ -1,0 +1,16 @@
+﻿# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: detect-aws-credentials
+    -   id: check-added-large-files
+-   repo: local
+    hooks:
+    -   id: alexa_skill_id_check_git_hook
+        name: alexa_skill_id_check_git_hook
+        entry: python ./alexa_skill_id_check_git_hook.py # adding python param because windows
+        language: system
+        always_run: true
+        pass_filenames: false
